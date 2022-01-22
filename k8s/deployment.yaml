@@ -1,0 +1,36 @@
+## Deployment da aplicação Node JS
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conversor
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: conversor
+  template:
+    metadata:
+      labels:
+        app: conversor
+    spec:
+      containers:
+      - name: conversor
+        image: dlpires300/conversao-temperatura:v1
+        ports:
+        - containerPort: 8080
+
+---
+## Services da aplicação NodeJS
+apiVersion: v1
+kind: Service
+metadata:
+  name: conversor
+spec:
+  selector:
+    app: conversor
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
+    #nodePort: 30000
+  #type: NodePort
